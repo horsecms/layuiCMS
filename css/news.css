@@ -1,0 +1,8 @@
+.news_search{ padding:10px 10px; }
+.news_search .layui-inline{ margin:5px 5px 5px 0; }
+.layui-table,.layui-table th{ text-align:center; }
+.news_list .layui-btn,.news_list .layui-btn+.layui-btn{ margin:2px 5px; }
+.news_list .layui-form-switch{ margin-top:0; }
+
+/*分页*/
+#page{ text-align:right; }
