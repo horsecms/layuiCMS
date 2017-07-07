@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		li{
+			list-style: none
+		}
+		.wrap{
+			width:500px;
+			height:300px;
+			overflow: hidden;
+			position: relative;
+		}
+
+		.wrap ul{
+			width:2500px;
+			height:100%;
+			position: absolute;
+		}
+
+		.wrap ul li{
+			float: left;
+			height:100%;
+			width:500px;
+		}
+		.wrap ul li:nth-child(1){
+			background-color: red
+		}
+		.wrap ul li:nth-child(2){
+			background-color: green
+		}
+		.wrap ul li:nth-child(3){
+			background-color: yellow
+		}
+		.wrap ul li:nth-child(4){
+			background-color: pink
+		}
+		.wrap ul li:nth-child(5){
+			background-color: orangered;
+		}
+		
+		.key{
+			height: 100%;
+			width:500px;
+			position: absolute;
+			top:0;
+			left:0;
+		}
+		.key span{
+			width:50px;
+			height:50px;
+			position: absolute;
+			top:50%;
+			cursor: pointer;
+			transform: translateY(-50);
+		}
+		.key span:nth-child(1){
+			left:0;
+
+		}
+		.key span:nth-child(2){
+			right:0;
+		}
+	</style>
+</head>
+<body>
+	<div class='wrap' id="J_wrap">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="key" id="J_key">
+			<span>&lt;</span>
+			<span>&gt;</span>
+		</div>
+	</div>
+</body>
+</html>
+<script>
+	var J_wrap = document.getElementById("J_wrap")
+	var J_key = document.getElementById("J_key")
+
+	var ul = J_wrap.getElementsByTagName("ul")[0]
+	var keys = J_key.getElementsByTagName("span")
+
+	var prive = keys[0];
+	var next = keys[1];
+
+    var tome;
+	var time;
+
+	function move(ele,num){
+	    var n = num+500;
+		tome = setInterval(function(){
+		    if(num<parseInt(getComputedStyle(ul)['left'])){
+		        n-=5;
+			}else{
+                n+=5;
+			}
+            if(n<=-2500){
+                n=0;
+            }
+            if(n>=0){
+                n=-2500;
+            }
+			console.log(n)
+		    if(n<=num){
+		      clearInterval(tome)
+			}
+		    ele.style.left =n+"px";
+		},10)
+	}
+	prive.onclick = function(){
+	    clearInterval(tome)
+		clearTimeout(time)
+	    var currentVal = getComputedStyle(ul)['left'];
+	    var val = parseInt(currentVal)+500;
+	    move(ul,val)
+		setTimeout(function () {
+            time = setInterval(function () {
+                clearInterval(tome)
+                var moveVal = parseInt(getComputedStyle(ul)['left']);
+                console.log(moveVal)
+                moveVal-=500;
+                if(moveVal<=-2500){
+                    moveVal=0;
+                }
+                move(ul,moveVal)
+            }, 2000);
+        },2000)
+	}
+	next.onclick = function(){
+        clearInterval(tome)
+        clearTimeout(time)
+        var currentVal = getComputedStyle(ul)['left'];
+        var val = parseInt(currentVal)-500;
+        move(ul,val)
+        setTimeout(function () {
+            time = setInterval(function () {
+                clearInterval(tome)
+                var moveVal = parseInt(getComputedStyle(ul)['left']);
+                console.log(moveVal)
+                moveVal-=500;
+                if(moveVal<=-2500){
+                    moveVal=0;
+                }
+                move(ul,moveVal)
+            }, 2000);
+        },2000)
+	}
+	time = setInterval(function () {
+        clearInterval(tome)
+        var moveVal = parseInt(getComputedStyle(ul)['left']);
+        console.log(moveVal)
+        moveVal-=500;
+		if(moveVal<=-2500){
+            moveVal=0;
+		}
+        move(ul,moveVal)
+    }, 2000);
+</script>

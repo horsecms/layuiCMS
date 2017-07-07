@@ -92,9 +92,11 @@ layui.config({
 			type : 2,
 			content : "linksAdd.html",
 			success : function(layero, index){
-				layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
-					tips: 3
-				});
+				setTimeout(function(){
+					layui.layer.tips('点击此处返回友链列表', '.layui-layer-setwin .layui-layer-close', {
+						tips: 3
+					});
+				},500)
 			}
 		})
 		//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）

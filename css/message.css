@@ -8,7 +8,6 @@
 .msg_info .user_info h2:hover{ color:#1AA094;}
 .msg_info .user_info p{ color:#8d8d8d; }
 .msg_reply{ color:#e15f63; }
-.msg_opr .layui-btn{ margin:2px 5px; }
 
 /*回复*/
 .replay_edit{ overflow: hidden; margin-bottom:20px; }

@@ -6,17 +6,158 @@ layui.config({
 		layer = layui.layer,
 		element = layui.element();
 		$ = layui.jquery;
-		tab = layui.bodyTab();
+		tab = layui.bodyTab({
+			openTabNum : "50",  //最大可打开窗口数量
+			url : "json/navs.json" //获取菜单json地址
+		});
+
+	//更换皮肤
+	var skin = window.sessionStorage.getItem("skin")
+	if(skin){  //如果更换过皮肤
+		if(window.sessionStorage.getItem("skinValue") != "自定义"){
+			$("body").addClass(window.sessionStorage.getItem("skin"));
+		}else{
+			$(".layui-layout-admin .layui-header").css("background-color",skin.split(',')[0]);
+			$(".layui-bg-black").css("background-color",skin.split(',')[1]);
+			$(".hideMenu").css("background-color",skin.split(',')[2]);
+		}
+	}
+	$(".changeSkin").click(function(){
+		layer.open({
+			title : "更换皮肤",
+			area : ["310px","280px"],
+			type : "1",
+			content : '<div class="skins_box">'+
+						'<form class="layui-form">'+
+							'<div class="layui-form-item">'+
+								'<input type="radio" name="skin" value="默认" title="默认" lay-filter="default" checked="">'+
+								'<input type="radio" name="skin" value="橙色" title="橙色" lay-filter="orange">'+
+								'<input type="radio" name="skin" value="蓝色" title="蓝色" lay-filter="blue">'+
+								'<input type="radio" name="skin" value="自定义" title="自定义" lay-filter="custom">'+
+								'<div class="skinCustom">'+
+									'<input type="text" class="layui-input topColor" name="topSkin" placeholder="顶部颜色" />'+
+									'<input type="text" class="layui-input leftColor" name="leftSkin" placeholder="左侧颜色" />'+
+									'<input type="text" class="layui-input menuColor" name="btnSkin" placeholder="顶部菜单按钮" />'+
+								'</div>'+
+							'</div>'+
+							'<div class="layui-form-item skinBtn">'+
+								'<a href="javascript:;" class="layui-btn layui-btn-small layui-btn-normal" lay-submit="" lay-filter="changeSkin">确定更换</a>'+
+								'<a href="javascript:;" class="layui-btn layui-btn-small layui-btn-primary" lay-submit="" lay-filter="noChangeSkin">我再想想</a>'+
+							'</div>'+
+						'</form>'+
+					'</div>',
+			success : function(index, layero){
+				if(window.sessionStorage.getItem("skinValue")){
+					$(".skins_box input[value="+window.sessionStorage.getItem("skinValue")+"]").attr("checked","checked");
+				};
+				if($(".skins_box input[value=自定义]").attr("checked")){
+					$(".skinCustom").css("visibility","inherit");
+					$(".topColor").val(skin.split(',')[0]);
+					$(".leftColor").val(skin.split(',')[1]);
+					$(".menuColor").val(skin.split(',')[2]);
+				};
+				form.render();
+				$(".skins_box").removeClass("layui-hide");
+				// form.on("radio(default)",function(data){
+				// 	$("body").removeAttr("class").addClass("main_body");
+				// 	$(".skinCustom").removeAttr("style");
+				// });
+				// form.on("radio(orange)",function(data){
+				// 	$("body").removeAttr("class").addClass("main_body orange");
+				// 	$(".skinCustom").removeAttr("style");
+				// });
+				// form.on("radio(blue)",function(data){
+				// 	$("body").removeAttr("class").addClass("main_body blue");
+				// 	$(".skinCustom").removeAttr("style");
+				// });
+				// form.on("radio(custom)",function(data){
+				// 	$("body").removeAttr("class").addClass("main_body custom");
+				// 	$(".skinCustom").css("visibility","inherit");
+				// });
+				$(".skins_box .layui-form-radio").on("click",function(){
+					var skinColor;
+					if($(this).find("span").text() == "橙色"){
+						skinColor = "orange";
+					}else if($(this).find("span").text() == "蓝色"){
+						skinColor = "blue";
+					}else if($(this).find("span").text() == "默认"){
+						skinColor = "";
+					}
+					if($(this).find("span").text() != "自定义"){
+						$("body").removeAttr("class").addClass("main_body "+skinColor+"");
+						$(".skinCustom").removeAttr("style");
+						$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
+					}else{
+						$(".skinCustom").css("visibility","inherit");
+					}
+				})
+				var skinStr,skinColor;
+				$(".topColor").blur(function(){
+					$(".layui-layout-admin .layui-header").css("background-color",$(this).val());
+				})
+				$(".leftColor").blur(function(){
+					$(".layui-bg-black").css("background-color",$(this).val());
+				})
+				$(".menuColor").blur(function(){
+					$(".hideMenu").css("background-color",$(this).val());
+				})
+
+				form.on("submit(changeSkin)",function(data){
+					if(data.field.skin != "自定义"){
+						if(data.field.skin == "橙色"){
+							skinColor = "orange";
+						}else if(data.field.skin == "蓝色"){
+							skinColor = "blue";
+						}else if(data.field.skin == "默认"){
+							skinColor = "";
+						}
+						window.sessionStorage.setItem("skin",skinColor);
+					}else{
+						skinStr = $(".topColor").val()+','+$(".leftColor").val()+','+$(".menuColor").val();
+						window.sessionStorage.setItem("skin",skinStr);
+					}
+					window.sessionStorage.setItem("skinValue",data.field.skin);
+					layer.closeAll("page");
+				});
+				form.on("submit(noChangeSkin)",function(){
+					$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
+					layer.closeAll("page");
+				});
+			},
+			cancel : function(){
+				$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
+			}
+		})
+	})
+
+	//隐藏左侧导航
+	$(".hideMenu").click(function(){
+		$(".layui-layout-admin").toggleClass("showMenu");
+		//渲染顶部窗口
+		tab.tabMove();
+	})
+
+	//渲染左侧菜单
+	tab.render();
 
 	//锁屏
 	function lockPage(){
 		layer.open({
 			title : false,
 			type : 1,
-			content : $("#lock-box"),
+			content : '	<div class="admin-header-lock" id="lock-box">'+
+							'<div class="admin-header-lock-img"><img src="images/face.jpg"/></div>'+
+							'<div class="admin-header-lock-name" id="lockUserName">请叫我马哥</div>'+
+							'<div class="input_btn">'+
+								'<input type="password" class="admin-header-lock-input layui-input" autocomplete="off" placeholder="请输入密码解锁.." name="lockPwd" id="lockPwd" />'+
+								'<button class="layui-btn" id="unlock">解锁</button>'+
+							'</div>'+
+							'<p>请输入“123456”，否则不会解锁成功哦！！！</p>'+
+						'</div>',
 			closeBtn : 0,
 			shade : 0.9
 		})
+		$(".admin-header-lock-input").focus();
 	}
 	$(".lockcms").on("click",function(){
 		window.sessionStorage.setItem("lockcms",true);
@@ -27,9 +168,10 @@ layui.config({
 		lockPage();
 	}
 	// 解锁
-	$("#unlock").on("click",function(){
+	$("body").on("click","#unlock",function(){
 		if($(this).siblings(".admin-header-lock-input").val() == ''){
 			layer.msg("请输入解锁密码！");
+			$(this).siblings(".admin-header-lock-input").focus();
 		}else{
 			if($(this).siblings(".admin-header-lock-input").val() == "123456"){
 				window.sessionStorage.setItem("lockcms",false);
@@ -37,6 +179,7 @@ layui.config({
 				layer.closeAll("page");
 			}else{
 				layer.msg("密码错误，请重新输入！");
+				$(this).siblings(".admin-header-lock-input").val('').focus();
 			}
 		}
 	});
@@ -59,22 +202,26 @@ layui.config({
 	});
 
 	// 添加新窗口
-	$(".layui-nav .layui-nav-item a").on("click",function(){
-		addTab($(this));
-		$(this).parent("li").siblings().removeClass("layui-nav-itemed");
+	$("body").on("click",".layui-nav .layui-nav-item a",function(){
+		//如果不存在子级
+		if($(this).siblings().length == 0){
+			addTab($(this));
+			$(this).parent("li").siblings().removeClass("layui-nav-itemed");
+			$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
+		}
 	})
 
 	//公告层
 	function showNotice(){
 		layer.open({
 	        type: 1,
-	        title: "系统公告", //不显示标题栏
+	        title: "系统公告",
 	        closeBtn: false,
 	        area: '310px',
 	        shade: 0.8,
-	        id: 'LAY_layuipro', //设定一个id，防止重复弹出
+	        id: 'LAY_layuipro',
 	        btn: ['火速围观'],
-	        moveType: 1, //拖拽模式，0或者1
+	        moveType: 1,
 	        content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;"><p>最近偶然发现贤心大神的layui框架，瞬间被他的完美样式所吸引，虽然功能不算强大，但毕竟是一个刚刚出现的框架，后面会慢慢完善的。很早之前就想做一套后台模版，但是感觉bootstrop代码的冗余太大，不是非常喜欢，自己写又太累，所以一直闲置了下来。直到遇到了layui我才又燃起了制作一套后台模版的斗志。由于本人只是纯前端，所以页面只是单纯的实现了效果，没有做服务器端的一些处理，可能后期技术跟上了会更新的，如果有什么问题欢迎大家指导。谢谢大家。</p><p>在此特别感谢Beginner和Paco，他们写的框架给了我很好的启发和借鉴。希望有时间可以多多请教。</p></div>',
 	        success: function(layero){
 				var btn = layero.find('.layui-layer-btn');
@@ -130,7 +277,54 @@ layui.config({
 				element.tabChange("bodyTab",menu[menu.length-1].layId);
 			}
 		}
+		//渲染顶部窗口
+		tab.tabMove();
 	}
+
+	//关闭其他
+	$(".closePageOther").on("click",function(){
+		if($("#top_tabs li").length>2 && $("#top_tabs li.layui-this cite").text()!="后台首页"){
+			var menu = JSON.parse(window.sessionStorage.getItem("menu"));
+			$("#top_tabs li").each(function(){
+				if($(this).attr("lay-id") != '' && !$(this).hasClass("layui-this")){
+					element.tabDelete("bodyTab",$(this).attr("lay-id")).init();
+					//此处将当前窗口重新获取放入session，避免一个个删除来回循环造成的不必要工作量
+					for(var i=0;i<menu.length;i++){
+						if($("#top_tabs li.layui-this cite").text() == menu[i].title){
+							menu.splice(0,menu.length,menu[i]);
+							window.sessionStorage.setItem("menu",JSON.stringify(menu));
+						}
+					}
+				}
+			})
+		}else if($("#top_tabs li.layui-this cite").text()=="后台首页" && $("#top_tabs li").length>1){
+			element.tabDelete("bodyTab",$("#top_tabs li:last").attr("lay-id")).init();
+			window.sessionStorage.removeItem("menu");
+			menu = [];
+			window.sessionStorage.removeItem("curmenu");
+		}else{
+			layer.msg("没有可以关闭的窗口了@_@");
+		}
+		//渲染顶部窗口
+		tab.tabMove();
+	})
+	//关闭全部
+	$(".closePageAll").on("click",function(){
+		if($("#top_tabs li").length > 1){
+			$("#top_tabs li").each(function(){
+				if($(this).attr("lay-id") != ''){
+					element.tabDelete("bodyTab",$(this).attr("lay-id")).init();
+					window.sessionStorage.removeItem("menu");
+					menu = [];
+					window.sessionStorage.removeItem("curmenu");
+				}
+			})
+		}else{
+			layer.msg("没有可以关闭的窗口了@_@");
+		}
+		//渲染顶部窗口
+		tab.tabMove();
+	})
 
 })
 
@@ -152,3 +346,4 @@ function donation(){
 		}]
 	})
 }
+

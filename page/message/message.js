@@ -80,9 +80,11 @@ layui.config({
             type : 2,
             content : "messageReply.html",
             success : function(layero, index){
-                layui.layer.tips('点击此处返回消息列表', '.layui-layer-setwin .layui-layer-close', {
-                    tips: 3
-                });
+                setTimeout(function(){
+                    layui.layer.tips('点击此处返回消息列表', '.layui-layer-setwin .layui-layer-close', {
+                        tips: 3
+                    });
+                },500)
                 var body = layui.layer.getChildFrame('body', index);
                 //加载回复信息
                 $.get("../../json/message.json",function(data){

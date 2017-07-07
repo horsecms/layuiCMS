@@ -11,8 +11,8 @@ layui.config({
 	$.get("../../json/usersList.json", function(data){
 		usersData = data;
 		if(window.sessionStorage.getItem("addUser")){
-			var addUsers = window.sessionStorage.getItem("addUser");
-			usersData = JSON.parse(addUsers).concat(usersData);
+			var addUser = window.sessionStorage.getItem("addUser");
+			usersData = JSON.parse(addUser).concat(usersData);
 		}
 		//执行加载数据的方法
 		usersList();
@@ -29,9 +29,9 @@ layui.config({
 					type : "get",
 					dataType : "json",
 					success : function(data){
-						if(window.sessionStorage.getItem("addUsers")){
-							var addUsers = window.sessionStorage.getItem("addUsers");
-							usersData = JSON.parse(addUsers).concat(data);
+						if(window.sessionStorage.getItem("addUser")){
+							var addUser = window.sessionStorage.getItem("addUser");
+							usersData = JSON.parse(addUser).concat(data);
 						}else{
 							usersData = data;
 						}
@@ -91,9 +91,11 @@ layui.config({
 			type : 2,
 			content : "addUser.html",
 			success : function(layero, index){
-				layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
-					tips: 3
-				});
+				setTimeout(function(){
+					layui.layer.tips('点击此处返回会员列表', '.layui-layer-setwin .layui-layer-close', {
+						tips: 3
+					});
+				},500)
 			}
 		})
 		//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
@@ -101,6 +103,34 @@ layui.config({
 			layui.layer.full(index);
 		})
 		layui.layer.full(index);
+	})
+
+	//批量删除
+	$(".batchDel").click(function(){
+		var $checkbox = $('.users_list tbody input[type="checkbox"][name="checked"]');
+		var $checked = $('.users_list tbody input[type="checkbox"][name="checked"]:checked');
+		if($checkbox.is(":checked")){
+			layer.confirm('确定删除选中的信息？',{icon:3, title:'提示信息'},function(index){
+				var index = layer.msg('删除中，请稍候',{icon: 16,time:false,shade:0.8});
+	            setTimeout(function(){
+	            	//删除数据
+	            	for(var j=0;j<$checked.length;j++){
+	            		for(var i=0;i<usersData.length;i++){
+							if(usersData[i].newsId == $checked.eq(j).parents("tr").find(".news_del").attr("data-id")){
+								usersData.splice(i,1);
+								usersList(usersData);
+							}
+						}
+	            	}
+	            	$('.users_list thead input[type="checkbox"]').prop("checked",false);
+	            	form.render();
+	                layer.close(index);
+					layer.msg("删除成功");
+	            },2000);
+	        })
+		}else{
+			layer.msg("请选择需要删除的文章");
+		}
 	})
 
     //全选
