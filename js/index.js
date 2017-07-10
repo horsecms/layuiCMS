@@ -105,11 +105,13 @@ layui.config({
 				});
 				form.on("submit(noChangeSkin)",function(){
 					$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
+					$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
 					layer.closeAll("page");
 				});
 			},
 			cancel : function(){
 				$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
+				$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
 			}
 		})
 	})
