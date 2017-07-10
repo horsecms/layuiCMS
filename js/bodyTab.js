@@ -73,8 +73,15 @@ layui.define(["element","jquery"],function(exports){
 			tabFilter = that.tabConfig.tabFilter;
 		if(_this.attr("target") == "_blank"){
 			window.location.href = _this.attr("data-url");
-		}else if(_this.find("i.iconfont,i.layui-icon").attr("data-icon") != undefined){
+		}else{
 			var title = '';
+			if(_this.find("i.iconfont,i.layui-icon").attr("data-icon") != undefined){
+				if(_this.find("i.iconfont").attr("data-icon") != undefined){
+					title += '<i class="iconfont '+_this.find("i.iconfont").attr("data-icon")+'"></i>';
+				}else{
+					title += '<i class="layui-icon">'+_this.find("i.layui-icon").attr("data-icon")+'</i>';
+				}
+			}
 			//已打开的窗口中不存在
 			if(that.hasTab(_this.find("cite").text()) == -1 && _this.siblings("dl.layui-nav-child").length == 0){
 				if($(".layui-tab-title.top_tab li").length == openTabNum){
@@ -82,11 +89,6 @@ layui.define(["element","jquery"],function(exports){
 					return;
 				}
 				tabIdIndex++;
-				if(_this.find("i.iconfont").attr("data-icon") != undefined){
-					title += '<i class="iconfont '+_this.find("i.iconfont").attr("data-icon")+'"></i>';
-				}else{
-					title += '<i class="layui-icon">'+_this.find("i.layui-icon").attr("data-icon")+'</i>';
-				}
 				title += '<cite>'+_this.find("cite").text()+'</cite>';
 				title += '<i class="layui-icon layui-unselect layui-tab-close" data-id="'+tabIdIndex+'">&#x1006;</i>';
 				element.tabAdd(tabFilter, {
