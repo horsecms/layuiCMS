@@ -58,22 +58,6 @@ layui.config({
 				};
 				form.render();
 				$(".skins_box").removeClass("layui-hide");
-				// form.on("radio(default)",function(data){
-				// 	$("body").removeAttr("class").addClass("main_body");
-				// 	$(".skinCustom").removeAttr("style");
-				// });
-				// form.on("radio(orange)",function(data){
-				// 	$("body").removeAttr("class").addClass("main_body orange");
-				// 	$(".skinCustom").removeAttr("style");
-				// });
-				// form.on("radio(blue)",function(data){
-				// 	$("body").removeAttr("class").addClass("main_body blue");
-				// 	$(".skinCustom").removeAttr("style");
-				// });
-				// form.on("radio(custom)",function(data){
-				// 	$("body").removeAttr("class").addClass("main_body custom");
-				// 	$(".skinCustom").css("visibility","inherit");
-				// });
 				$(".skins_box .layui-form-radio").on("click",function(){
 					var skinColor;
 					if($(this).find("span").text() == "橙色"){
@@ -202,7 +186,7 @@ layui.config({
 	});
 
 	// 添加新窗口
-	$("body").on("click",".layui-nav .layui-nav-item a",function(){
+	$("body").on("click",".navBar .layui-nav .layui-nav-item a",function(){
 		//如果不存在子级
 		if($(this).siblings().length == 0){
 			addTab($(this));
@@ -254,10 +238,12 @@ layui.config({
 		var openTitle = '';
 		for(var i=0;i<menu.length;i++){
 			openTitle = '';
-			if(menu[i].icon.split("-")[0] == 'icon'){
-				openTitle += '<i class="iconfont '+menu[i].icon+'"></i>';
-			}else{
-				openTitle += '<i class="layui-icon">'+menu[i].icon+'</i>';
+			if(menu[i].icon){
+				if(menu[i].icon.split("-")[0] == 'icon'){
+					openTitle += '<i class="iconfont '+menu[i].icon+'"></i>';
+				}else{
+					openTitle += '<i class="layui-icon">'+menu[i].icon+'</i>';
+				}
 			}
 			openTitle += '<cite>'+menu[i].title+'</cite>';
 			openTitle += '<i class="layui-icon layui-unselect layui-tab-close" data-id="'+menu[i].layId+'">&#x1006;</i>';
