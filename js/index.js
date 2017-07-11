@@ -105,11 +105,13 @@ layui.config({
 				});
 				form.on("submit(noChangeSkin)",function(){
 					$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
+					$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
 					layer.closeAll("page");
 				});
 			},
 			cancel : function(){
 				$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
+				$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
 			}
 		})
 	})
@@ -190,9 +192,9 @@ layui.config({
 		//如果不存在子级
 		if($(this).siblings().length == 0){
 			addTab($(this));
-			$(this).parent("li").siblings().removeClass("layui-nav-itemed");
-			$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
 		}
+		$(this).parent("li").siblings().removeClass("layui-nav-itemed");
+		$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
 	})
 
 	//公告层
