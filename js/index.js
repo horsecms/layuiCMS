@@ -192,9 +192,9 @@ layui.config({
 		//如果不存在子级
 		if($(this).siblings().length == 0){
 			addTab($(this));
+			$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
 		}
 		$(this).parent("li").siblings().removeClass("layui-nav-itemed");
-		$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
 	})
 
 	//公告层
