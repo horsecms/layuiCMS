@@ -286,10 +286,14 @@ layui.config({
 				}
 			})
 		}else if($("#top_tabs li.layui-this cite").text()=="后台首页" && $("#top_tabs li").length>1){
-			element.tabDelete("bodyTab",$("#top_tabs li:last").attr("lay-id")).init();
-			window.sessionStorage.removeItem("menu");
-			menu = [];
-			window.sessionStorage.removeItem("curmenu");
+			$("#top_tabs li").each(function(){
+				if($(this).attr("lay-id") != '' && !$(this).hasClass("layui-this")){
+					element.tabDelete("bodyTab",$(this).attr("lay-id")).init();
+					window.sessionStorage.removeItem("menu");
+					menu = [];
+					window.sessionStorage.removeItem("curmenu");
+				}
+			})
 		}else{
 			layer.msg("没有可以关闭的窗口了@_@");
 		}
