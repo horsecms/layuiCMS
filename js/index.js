@@ -188,7 +188,7 @@ layui.config({
 	});
 
 	// 添加新窗口
-	$("body").on("click",".navBar .layui-nav .layui-nav-item a,.top_menu.layui-nav .layui-nav-item a",function(){
+	$("body").on("click",".navBar .layui-nav .layui-nav-item a,.top_menu.layui-nav .layui-nav-child a:not('.noAddTab'),.mobileAddTab",function(){
 		//如果不存在子级
 		if($(this).siblings().length == 0){
 			addTab($(this));
