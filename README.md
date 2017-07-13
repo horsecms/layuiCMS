@@ -29,7 +29,7 @@ v1.0.1（新增） - 2017-07-05
 MIT License
 
 # 在线预览
-http://www.zjsoar.com/layuicms/
+http://layuicms.oschina.io/
 
 # 欢迎点赞支持
 http://fly.layui.com/case/u/3198216
