@@ -1,4 +1,5 @@
-# layuiCMS
+# 欢迎点赞支持
+http://fly.layui.com/case/u/3198216
 
 # 项目简介：
 这是一套是完全基于layui框架所做的纯前端后台管理模版，未引入任何第三方插件（如果天气插件不算的话），除打开的窗口和部分小改动外所有操作刷新后无效，关闭窗口或清除缓存后，所有操作无效
@@ -30,6 +31,3 @@ MIT License
 
 # 在线预览
 http://layuicms.oschina.io/
-
-# 欢迎点赞支持
-http://fly.layui.com/case/u/3198216
