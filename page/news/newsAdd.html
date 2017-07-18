@@ -16,7 +16,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">文章标题</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input newsName" lay-verify="title" placeholder="请输入文章标题">
+				<input type="text" class="layui-input newsName" lay-verify="required" placeholder="请输入文章标题">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -37,7 +37,7 @@
 			<div class="layui-inline">		
 				<label class="layui-form-label">发布时间</label>
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input newsTime" lay-verify="date" onclick="layui.laydate({elem:this})">
+					<input type="text" class="layui-input newsTime" lay-verify="required|date" onclick="layui.laydate({elem:this})">
 				</div>
 			</div>
 			<div class="layui-inline">

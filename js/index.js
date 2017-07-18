@@ -188,13 +188,15 @@ layui.config({
 	});
 
 	// 添加新窗口
-	$("body").on("click",".navBar .layui-nav .layui-nav-item a,.top_menu.layui-nav .layui-nav-child a:not('.noAddTab'),.mobileAddTab",function(){
-		//如果不存在子级
-		if($(this).siblings().length == 0){
-			addTab($(this));
-			$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
+	$("body").on("click",".layui-nav .layui-nav-item a",function(){
+		if($(this).attr("data-url")){
+			//如果不存在子级
+			if($(this).siblings().length == 0){
+				addTab($(this));
+				$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
+			}
+			$(this).parent("li").siblings().removeClass("layui-nav-itemed");
 		}
-		$(this).parent("li").siblings().removeClass("layui-nav-itemed");
 	})
 
 	//公告层
