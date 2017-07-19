@@ -195,8 +195,8 @@ layui.config({
 				addTab($(this));
 				$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
 			}
-			$(this).parent("li").siblings().removeClass("layui-nav-itemed");
 		}
+		$(this).parent("li").siblings().removeClass("layui-nav-itemed");
 	})
 
 	//公告层
