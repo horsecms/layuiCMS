@@ -12,16 +12,19 @@ layui.config({
 		});
 
 	//更换皮肤
-	var skin = window.sessionStorage.getItem("skin")
-	if(skin){  //如果更换过皮肤
-		if(window.sessionStorage.getItem("skinValue") != "自定义"){
-			$("body").addClass(window.sessionStorage.getItem("skin"));
-		}else{
-			$(".layui-layout-admin .layui-header").css("background-color",skin.split(',')[0]);
-			$(".layui-bg-black").css("background-color",skin.split(',')[1]);
-			$(".hideMenu").css("background-color",skin.split(',')[2]);
+	function skins(){
+		var skin = window.sessionStorage.getItem("skin");
+		if(skin){  //如果更换过皮肤
+			if(window.sessionStorage.getItem("skinValue") != "自定义"){
+				$("body").addClass(window.sessionStorage.getItem("skin"));
+			}else{
+				$(".layui-layout-admin .layui-header").css("background-color",skin.split(',')[0]);
+				$(".layui-bg-black").css("background-color",skin.split(',')[1]);
+				$(".hideMenu").css("background-color",skin.split(',')[2]);
+			}
 		}
 	}
+	skins();
 	$(".changeSkin").click(function(){
 		layer.open({
 			title : "更换皮肤",
@@ -47,6 +50,7 @@ layui.config({
 						'</form>'+
 					'</div>',
 			success : function(index, layero){
+				var skin = window.sessionStorage.getItem("skin");
 				if(window.sessionStorage.getItem("skinValue")){
 					$(".skins_box input[value="+window.sessionStorage.getItem("skinValue")+"]").attr("checked","checked");
 				};
@@ -68,6 +72,7 @@ layui.config({
 						skinColor = "";
 					}
 					if($(this).find("span").text() != "自定义"){
+						$(".topColor,.leftColor,.menuColor").val('');
 						$("body").removeAttr("class").addClass("main_body "+skinColor+"");
 						$(".skinCustom").removeAttr("style");
 						$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
@@ -99,6 +104,7 @@ layui.config({
 					}else{
 						skinStr = $(".topColor").val()+','+$(".leftColor").val()+','+$(".menuColor").val();
 						window.sessionStorage.setItem("skin",skinStr);
+						$("body").removeAttr("class").addClass("main_body");
 					}
 					window.sessionStorage.setItem("skinValue",data.field.skin);
 					layer.closeAll("page");
@@ -106,12 +112,14 @@ layui.config({
 				form.on("submit(noChangeSkin)",function(){
 					$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
 					$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
+					skins();
 					layer.closeAll("page");
 				});
 			},
 			cancel : function(){
 				$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
 				$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
+				skins();
 			}
 		})
 	})
