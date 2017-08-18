@@ -83,7 +83,7 @@ layui.define(["element","jquery"],function(exports){
 				}
 			}
 			//已打开的窗口中不存在
-			if(that.hasTab(_this.find("cite").text()) == -1 && _this.siblings("dl.layui-nav-child").length == 0){
+			if(that.hasTab(_this.find("cite").text()) == -1 && _this.siblings("dl.layui-nav-child").length == 0 && _this.attr("data-url")){
 				if($(".layui-tab-title.top_tab li").length == openTabNum){
 					layer.msg('只能同时打开'+openTabNum+'个选项卡哦。不然系统会卡的！');
 					return;

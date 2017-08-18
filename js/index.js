@@ -204,12 +204,10 @@ layui.config({
 
 	// 添加新窗口
 	$("body").on("click",".layui-nav .layui-nav-item a",function(){
-		if($(this).attr("data-url")){
-			//如果不存在子级
-			if($(this).siblings().length == 0){
-				addTab($(this));
-				$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
-			}
+		//如果不存在子级
+		if($(this).siblings().length == 0){
+			addTab($(this));
+			$('body').removeClass('site-mobile');  //移动端点击菜单关闭菜单层
 		}
 		$(this).parent("li").siblings().removeClass("layui-nav-itemed");
 	})
@@ -285,6 +283,19 @@ layui.config({
 		//渲染顶部窗口
 		tab.tabMove();
 	}
+
+	//刷新当前
+	$(".refresh").on("click",function(){  //此处添加禁止连续点击刷新一是为了降低服务器压力，另外一个就是为了防止超快点击造成chrome本身的一些js文件的报错
+		if($(this).hasClass("refreshThis")){
+			$(this).removeClass("refreshThis");
+			$(".clildFrame .layui-tab-item.layui-show").find("iframe")[0].contentWindow.location.reload(true);
+		}else{
+			layer.msg("您点击的速度超过了服务器的响应速度，还是等两秒再刷新吧！");
+			setTimeout(function(){
+				$(".refresh").addClass("refreshThis");
+			},2000)
+		}
+	})
 
 	//关闭其他
 	$(".closePageOther").on("click",function(){
