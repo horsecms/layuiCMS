@@ -289,11 +289,11 @@ layui.config({
 		if($(this).hasClass("refreshThis")){
 			$(this).removeClass("refreshThis");
 			$(".clildFrame .layui-tab-item.layui-show").find("iframe")[0].contentWindow.location.reload(true);
-		}else{
-			layer.msg("您点击的速度超过了服务器的响应速度，还是等两秒再刷新吧！");
 			setTimeout(function(){
 				$(".refresh").addClass("refreshThis");
 			},2000)
+		}else{
+			layer.msg("您点击的速度超过了服务器的响应速度，还是等两秒再刷新吧！");
 		}
 	})
 
