@@ -41,4 +41,4 @@ v1.0.1（新增） - 2017-07-05
 MIT License
 
 # 在线预览
-http://layuicms.oschina.io/
+http://www.layuicms.com/v1/
